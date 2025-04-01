@@ -1,4 +1,5 @@
 import 'package:sample/screens/auth/chat.dart';
+import 'package:sample/screens/auths/profile.dart';
 import 'package:sample/screens/dashboard.dart';
 import 'package:sample/screens/detail/controller.dart';
 import 'package:sample/screens/favorite/controller.dart';
@@ -7,6 +8,8 @@ import 'package:sample/screens/ingredients/view.dart';
 import 'package:sample/screens/detail/view.dart';
 import 'package:sample/screens/auths/onboard.dart';
 import 'package:sample/screens/home/controller.dart';
+import 'package:sample/screens/notification/controller.dart';
+import 'package:sample/screens/notification/notification.dart';
 import 'package:sample/screens/questionnare/controller.dart';
 import 'package:sample/screens/questionnare/questionnare.dart';
 import 'package:sample/screens/auth/suggestion.dart';
@@ -45,7 +48,13 @@ final routes = [
       Get.put<HomeController>(HomeController());
     })
   ]),
-  GetPage(name: '/user_profile', page: () => UserProfileScreen()),
+  GetPage(name: '/preference', page: () => UserProfileScreen()),
+  GetPage(name: '/profile', page: () => ProfileScreen()),
+  GetPage(name: '/notification', page: () => NotificationScreen(), bindings: [
+    BindingsBuilder(() {
+      Get.put<NotificationController>(NotificationController());
+    })
+  ]),
   GetPage(name: '/favorites', page: () => FavoritesScreen(), bindings: [
     BindingsBuilder(() {
       Get.put<FavoriteController>(FavoriteController());

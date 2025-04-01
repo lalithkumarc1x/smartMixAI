@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sample/screens/favorite/controller.dart';
+import 'package:sample/services/base.controller.dart';
 import 'package:sample/styles.dart';
 import 'package:sample/utils.dart';
 
-class ProfileScreen extends GetView<FavoriteController> {
+class ProfileScreen extends GetView<BaseController> {
   const ProfileScreen({super.key});
 
   @override
@@ -33,34 +35,47 @@ class ProfileScreen extends GetView<FavoriteController> {
                 // getAppBar("Profile", canGoBack: false),
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 80,
-                      backgroundImage: Image.asset(
-                        'assets/drawer.png',
-                        fit: BoxFit.contain,
-                      ).image,
+                    GetBuilder<BaseController>(
+                      id: "image",
+                      builder: (controller) => CircleAvatar(
+                        radius: 80,
+                        backgroundImage:
+                            NetworkImage(controller.getUserProfile()),
+                      ),
                     ),
                     Positioned(
                       right: 0,
                       bottom: 0,
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundColor: hexToColor("#C58346"),
-                        child: FittedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Icon(
-                              Icons.camera_enhance_outlined,
-                              color: Colors.white,
-                              size: 30,
+                      child: InkWell(
+                        onTap: () async {
+                          final ImagePicker picker = ImagePicker();
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery);
+
+                          if (image != null) {
+                            await controller.updateProfile(image);
+                          }
+                        },
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: hexToColor("#C58346"),
+                          child: FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Icon(
+                                Icons.camera_enhance_outlined,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
+                    
                   ],
                 ),
-                Text('Sabrina Aryan',
+                Text(controller.getUserName(),
                     style: CustomTextStyle.text_600(
                       fontSize: 28,
                     )),
@@ -69,20 +84,24 @@ class ProfileScreen extends GetView<FavoriteController> {
                 ),
 
                 // Divider(),
-                _getDrawerItem('Favourite', Icons.favorite,
-                    () => Get.toNamed('/favorites')),
+                // _getDrawerItem('Favourite', Icons.favorite,
+                //     () => Get.toNamed('/favorites')),
                 // Divider(),
-                _getDrawerItem(
-                    'Ingredient', Icons.notes, () => Get.toNamed('/home')),
+                // _getDrawerItem(
+                //     'Ingredient', Icons.notes, () => Get.toNamed('/home')),
                 // Divider(),
                 _getDrawerItem('Notifications', Icons.notifications,
-                    () => Get.toNamed('/home')),
+                    () => Get.toNamed('/notification')),
                 // Divider(),
                 _getDrawerItem(
-                    'Settings', Icons.settings, () => Get.toNamed('/home')),
+                    'Preference', Icons.settings,
+                    () => Get.toNamed('/preference')),
                 // Divider(),
                 _getDrawerItem(
-                    'Logout', Icons.logout, () => Get.toNamed('/home'),
+                    'Logout', Icons.logout, () async {
+                  controller.logout();
+                  Get.offAllNamed('/login');
+                },
                     isSelected: true),
               ],
             ),

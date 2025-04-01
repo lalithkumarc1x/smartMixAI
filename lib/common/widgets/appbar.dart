@@ -9,7 +9,7 @@ Widget getAppBar(String? title, {canGoBack = true}) {
       children: [
         if (canGoBack)
         InkWell(
-          onTap: () => Get.toNamed('/home'),
+            onTap: () => Get.back(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Icon(Icons.arrow_back),

@@ -17,12 +17,16 @@ import 'package:sample/screens/auth/suggestion.dart';
 import 'package:sample/screens/auth/user_profile.dart';
 import 'package:sample/screens/home/view.dart';
 import 'package:sample/screens/splash/view.dart';
+import 'package:sample/services/api_service.dart';
+import 'package:sample/services/base.controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Get.putAsync(() => SharedPrefsService().init());
+  await Get.putAsync(() => SharedPrefsService().init(), permanent: true);
   Get.put(SharedPrefsService(), permanent: true);
+  Get.put(BaseController(), permanent: true);
   Get.put(HomeController());
+  Get.put(ApiService());
   runApp(MyApp());
 }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sample/common/service/shared_prefs.dart';
 import 'package:sample/screens/auths/onboard.dart';
@@ -35,7 +36,7 @@ class AuthController extends GetxController {
         Get.offAllNamed('/login');
       } else {
         // Show error message
-        Get.snackbar('Error', 'SignUp Failed');
+        Get.snackbar('Error', response['message']);
       }
     } catch (e) {
       // Handle any exceptions that occur during the sign-up process
@@ -50,15 +51,21 @@ class AuthController extends GetxController {
           .signIn<Map<String, dynamic>>(email: email, password: password);
       if (response['success'] == true) {
         await _sharedPrefsService.setString('token', response['token']);
-        // Save email to shared preferences
-        await _sharedPrefsService.setString('userEmail', email);
+        // Save user name to shared preferences 
+        await _sharedPrefsService.setString('name', response['name']);
+        // Save user email to shared preferences
+        await _sharedPrefsService.setString('email', response['email']);
+        // Save user profile image to shared preferences
+        await _sharedPrefsService.setString(
+            'profile_image', response['profile_image']);
         Get.to(OnBoardScreen());
       } else {
-        Get.snackbar('', 'SignIn Failed');
+        Get.snackbar('Signin Failed', 'Invalid Credentials',
+            backgroundColor: Colors.redAccent.shade100);
       }
     } catch (e) {
       print(e);
-      Get.snackbar('', 'SignIn Failed');
+      Get.snackbar('Signin Failed', 'Invalid Credentials');
     }
   }
 }

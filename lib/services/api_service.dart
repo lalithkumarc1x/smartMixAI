@@ -1,11 +1,13 @@
 import 'package:sample/models/response/category.dart';
 import 'package:sample/common/service/api_client.dart';
+import 'package:sample/models/response/drink.dart';
 import 'package:sample/models/response/drink_detail.dart';
 import 'package:sample/models/response/favorite.dart';
  
 class ApiService extends ApiClient {
   Future<List<CategoryResponse>> getCategories() async => await getRequest('getcategories');
-  Future<List<dynamic>> getDrinks() async => await getRequest('getdrinks');
+  Future<List<DrinkResponse>> getDrinks() async =>
+      await getRequest('getdrinks');
   Future<Map<String, dynamic>> getProfile() async => await getRequest('getprofile');
   Future<Map<String, dynamic>> getSuggestions() async => await getRequest('getsuggestions');
   Future<List<dynamic>> getScore() async => await getRequest('getscore');

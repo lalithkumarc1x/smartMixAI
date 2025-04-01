@@ -35,15 +35,15 @@ class _DashboardState extends State<Dashboard> {
       extendBody: true,
       body: PageView(
         controller: _pageController,
-        // onPageChanged: (index) {
-        //   setState(() {
-        //     _selectedIndex = index;
-        //   });
-        // },
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         children: <Widget>[
           HomePage(),
-          SuggestionScreen(),
           ChatScreen(),
+          SuggestionScreen(),
           FavoritesScreen(),
           ProfileScreen(),
         ],
@@ -68,8 +68,8 @@ class _DashboardState extends State<Dashboard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _getBottomNavigation('assets/btm-1.png', 0),
-              _getBottomNavigation('assets/Group-321.png', 2),
-              _getBottomNavigation('assets/btm-3.png', 1),
+              _getBottomNavigation('assets/Group-321.png', 1),
+              _getBottomNavigation('assets/btm-3.png', 2),
               _getBottomNavigation('assets/btm-4.png', 3),
               _getBottomNavigation('assets/btm-5.png', 4),
             ],

@@ -16,11 +16,11 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       key: _scaffoldKey,
       extendBody: true,
-      endDrawer: _getDrawer(),
+      // endDrawer: _getDrawer(),
       appBar: _getAppBar(),
       body: RefreshIndicator(
           onRefresh: () async => controller.onInit(), child: _getBody()),
-      bottomNavigationBar: const CommonBottomBar(),
+      // bottomNavigationBar: const CommonBottomBar(),
     );
   }
 
@@ -32,14 +32,14 @@ class HomePage extends GetView<HomeController> {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: Image.asset('assets/image_11.jpg').image,
+            backgroundImage: NetworkImage(controller.getUserProfile()),
           ),
           SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'DANIEL SMITH',
+                controller.getUserName(),
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               GestureDetector(
@@ -54,15 +54,15 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       actions: [
-        InkWell(
-          onTap: () {
-            _scaffoldKey.currentState?.openEndDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Image.asset('assets/image-12.png'),
-          ),
-        ),
+        // InkWell(
+        //   onTap: () {
+        //     _scaffoldKey.currentState?.openEndDrawer();
+        //   },
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        //     child: Image.asset('assets/image-12.png'),
+        //   ),
+        // ),
       ],
     );
   }
@@ -293,8 +293,7 @@ class HomePage extends GetView<HomeController> {
                     });
                   },
                   child: DrinkCard(
-                    name: drink.name,
-                    url: "image-7.png",
+                   drink: drink
                   ),
                 );
               },

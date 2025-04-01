@@ -17,6 +17,20 @@ class _SuggestionScreenState extends State<SuggestionScreen>
   final ScrollController _scrollController = ScrollController();
   double _currentIndex = 0;
   final List<String> cocktails = ["Mojito", "Mijito", "Daiquiri", "Margarita"];
+  final data1_data = [
+    [0.8, 0.9, 0.3, 0.4, 0.6],
+    [0.9, 0.7, 0.2, 0.3, 0.5],
+    [0.8, 0.9, 0.3, 0.4, 0.6],
+    [0.9, 0.7, 0.2, 0.3, 0.5],
+  ];
+  final data2_data = [
+    [0.9, 0.7, 0.2, 0.3, 0.5],
+    [0.8, 0.9, 0.3, 0.4, 0.6],
+    [0.9, 0.7, 0.2, 0.3, 0.5],
+    [0.8, 0.9, 0.3, 0.4, 0.6],
+  ];
+
+  int _index = 0;
 
   late TabController _tabController;
 
@@ -41,7 +55,6 @@ class _SuggestionScreenState extends State<SuggestionScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          
           Image.asset(
             'assets/bg.png',
             fit: BoxFit.fill,
@@ -156,25 +169,34 @@ class _SuggestionScreenState extends State<SuggestionScreen>
         Container(
           height: 300,
           padding: EdgeInsets.all(8),
-          child: ListView.builder(
-            controller: _scrollController,
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
+          child: PageView.builder(
+            controller: PageController(viewportFraction: 0.6),
+            itemCount: 4,
+            onPageChanged: (index) {
+              setState(() {
+                _index = index;
+              });
+            },
             itemBuilder: (context, index) {
-              double scale = 1.0;
-              double difference = (_currentIndex - index).abs();
+              return AnimatedBuilder(
+                animation: PageController(viewportFraction: 0.6),
+                builder: (context, child) {
+                  double scale = 1.0;
+                  // double difference = (_currentIndex - index).abs();
 
-              if (difference < 1) {
-                scale = 1.1 - (difference * 0.1);
-              } else {
-                scale = 0.9; // Smaller size for items outside focus
-              }
+                  if (_index == index) {
+                    scale = 1.1;
+                  } else {
+                    scale = 0.9; // Smaller size for items outside focus
+                  }
 
-              return Center(
-                child: Transform.scale(
-                  scale: scale,
-                  child: _buildDrinkCard(),
-                ),
+                  return Center(
+                    child: Transform.scale(
+                      scale: scale,
+                      child: _buildDrinkCard(),
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -237,21 +259,24 @@ class _SuggestionScreenState extends State<SuggestionScreen>
                   ),
                 ),
               ),
-              RadarChartWidget(),
+                  RadarChartWidget(
+                    data1: data1_data[_index],
+                    data2: data2_data[_index],
+                  ),
             ],
           )),
         ),
         SizedBox(height: 10,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(backgroundColor: hexToColor("#CBAE9B"),radius: 8,),
-            SizedBox(width: 4,),
-            CircleAvatar(backgroundColor: hexToColor("#C58346"),radius: 8,),
-            SizedBox(width: 4,),
-            CircleAvatar(backgroundColor: hexToColor("#CBAE9B"),radius: 8,)
-          ],
-        )
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     CircleAvatar(backgroundColor: hexToColor("#CBAE9B"),radius: 8,),
+        //     SizedBox(width: 4,),
+        //     CircleAvatar(backgroundColor: hexToColor("#C58346"),radius: 8,),
+        //     SizedBox(width: 4,),
+        //     CircleAvatar(backgroundColor: hexToColor("#CBAE9B"),radius: 8,)
+        //   ],
+        // )
       ],
     );
   }
@@ -315,7 +340,9 @@ class _SuggestionScreenState extends State<SuggestionScreen>
 }
 
 class RadarChartWidget extends StatelessWidget {
-  const RadarChartWidget({super.key});
+  final List<double> data1;
+  final List<double> data2;
+  const RadarChartWidget({super.key, required this.data1, required this.data2});
 
   @override
   Widget build(BuildContext context) {
@@ -341,24 +368,27 @@ class RadarChartWidget extends StatelessWidget {
             fillColor: hexToColor("#C58346").withValues(alpha: .5),
             borderColor: hexToColor("#D08151"),
             borderWidth: 1,
-            dataEntries: [
-              RadarEntry(value: 0.8),
-              RadarEntry(value: 0.9),
-              RadarEntry(value: 0.3),
-              RadarEntry(value: 0.4),
-              RadarEntry(value: 0.6),
-            ],
+            dataEntries: data1.map((e) => RadarEntry(value: e)).toList(),
+            // [
+
+            //   RadarEntry(value: 0.8),
+            //   RadarEntry(value: 0.9),
+            //   RadarEntry(value: 0.3),
+            //   RadarEntry(value: 0.4),
+            //   RadarEntry(value: 0.6),
+            // ],
           ),
           RadarDataSet(
             fillColor: hexToColor("#A29D9A").withValues(alpha: .4),
             borderColor: hexToColor("#A29D9A"),
-            dataEntries: [
-              RadarEntry(value: 0.9),
-              RadarEntry(value: 0.7),
-              RadarEntry(value: 0.2),
-              RadarEntry(value: 0.3),
-              RadarEntry(value: 0.5),
-            ],
+            dataEntries: data1.map((e) => RadarEntry(value: e)).toList(),
+            // [
+            //   RadarEntry(value: 0.9),
+            //   RadarEntry(value: 0.7),
+            //   RadarEntry(value: 0.2),
+            //   RadarEntry(value: 0.3),
+            //   RadarEntry(value: 0.5),
+            // ],
           ),
         ],
       ),

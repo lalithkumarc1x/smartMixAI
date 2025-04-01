@@ -40,10 +40,19 @@ class FavoritesScreen extends GetView<FavoriteController> {
                   height: 40,
                 ),
 
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: controller.favorites.length,
+                //   itemBuilder: (context, index) {
+                //     var favorite = controller.favorites[index];
+                //     return _getIndividualCard(favorite.url, favorite.name);
+                //   },
+                // ),
                 // GetBuilder<FavoriteController>(
-                //   id: 'list',
+                //   id: "listsss",
                 //   builder: (controller) {
                 //     return ListView.builder(
+                //       key: Key("lists"),
                 //       shrinkWrap: true,
                 //       itemCount: controller.favorites.length,
                 //       itemBuilder: (context, index) {
@@ -88,6 +97,7 @@ class FavoritesScreen extends GetView<FavoriteController> {
 
   Widget _getIndividualCard(String imageName, String name) {
     return Container(
+      key: Key(name),
       margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
           color: hexToColor("#EBCCB9"),

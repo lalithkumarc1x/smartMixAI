@@ -8,7 +8,7 @@ class QuestionnaireController extends GetxController {
     try {
       await _service.saveScore(scoreData);
       Get.success('Score', 'Score saved successfully');
-      Get.toNamed('/home');
+      Get.toNamed('/dashboard');
     } catch (e) {
       print(e);
       Get.error('Score', 'Error saving');

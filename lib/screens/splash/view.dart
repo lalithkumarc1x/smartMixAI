@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sample/common/service/shared_prefs.dart';
 import 'package:sample/screens/auths/login.dart';
 import 'package:sample/screens/home/view.dart';
 
@@ -13,12 +14,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
+  SharedPrefsService sharedPrefsService = Get.find<SharedPrefsService>();
+
   @override
   void initState() {
     super.initState(); 
+    if (sharedPrefsService.getString("token") != null) {
+      Timer(Duration(seconds: 1), () {
+        Get.offAndToNamed('/dashboard');
+      });
+    } else {
     Timer(Duration(seconds: 1), () {
       Get.offAndToNamed('/login');
     });
+    }
   }
 
   @override

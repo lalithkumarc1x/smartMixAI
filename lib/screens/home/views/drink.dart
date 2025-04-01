@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sample/models/response/drink.dart';
 import 'package:sample/utils.dart';
 
 class DrinkCard extends StatelessWidget {
-  final String name;
+  final UiDrink drink;
   final String url;
-
-  const DrinkCard({super.key, required this.name, this.url = 'image-7.png'});
+  const DrinkCard({super.key, required this.drink, this.url = 'image-7.png'});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,12 @@ class DrinkCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (drink.favorite)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                name,
+                  drink.name,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               CircleAvatar(
@@ -39,7 +40,7 @@ class DrinkCard extends StatelessWidget {
           SizedBox(height: 8),
           RichText(
             text: TextSpan(
-              text: 'Lorem Ipsum is simply and typesetting ',
+              text: drink.description,
               style: TextStyle(fontSize: 12, color: Colors.black),
               children: [
                 TextSpan(
